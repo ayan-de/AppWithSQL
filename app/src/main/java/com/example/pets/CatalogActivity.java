@@ -2,12 +2,17 @@ package com.example.pets;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
+import android.widget.TextView;
 
+import com.example.pets.data.PetContract.PetEntry;
+import com.example.pets.data.PetDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class CatalogActivity extends AppCompatActivity {
