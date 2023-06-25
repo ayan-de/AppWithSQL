@@ -36,13 +36,15 @@ public class CatalogActivity extends AppCompatActivity {
 
         mDbHelper = new PetDbHelper(this);
 
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
         displayDatabaseInfo();
     }
 
-    /**
-     * Temporary helper method to display information in the onscreen TextView about the state of
-     * the pets database.
-     */
+
     private void displayDatabaseInfo() {
 
         // Create and/or open a database to read from it
@@ -90,12 +92,10 @@ public class CatalogActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the appvalues bar overflow menu
         // Respond to a click on the "Insert dummy data" menu option
-
 
         int itemId = item.getItemId();
         if (itemId == R.id.action_insert_dummy_data) {
