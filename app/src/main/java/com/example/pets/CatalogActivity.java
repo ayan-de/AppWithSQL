@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -121,8 +122,9 @@ public class CatalogActivity extends AppCompatActivity {
 
 
         // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
+        //long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
 
+        Uri newuri = getContentResolver().insert(PetEntry.CONTENT_URI,values);
 
     }
 
