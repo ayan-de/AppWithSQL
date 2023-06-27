@@ -10,11 +10,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * {@link ContentProvider} for Pets app.
  */
 public class PetProvider extends ContentProvider {
+
+    public static final String LOG_TAG = PetProvider.class.getSimpleName();
 
     private static final int PETS = 100;
     private static final int PETS_ID = 101;
@@ -79,9 +82,28 @@ public class PetProvider extends ContentProvider {
      */
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-        return null;
+
+        final int match = sUriMatcher.match(uri);
+        switch (match){
+            case PETS:
+                return insertPets(uri,contentValues);
+            default:
+                throw new IllegalArgumentException("Inserting is not supported for" + uri);
+        }
+
     }
 
+    private Uri insertPets(Uri uri, ContentValues values){
+
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        long id = database.insert(PetEntry.TABLE_NAME,null,values);
+        if(id == -1){
+            Log.e(LOG_TAG,"failed to insert new row" + uri);
+            return null;
+        }
+        return ContentUris.withAppendedId(uri,id);
+    }
     /**
      * Updates the data at the given selection and selection arguments, with the new ContentValues.
      */
