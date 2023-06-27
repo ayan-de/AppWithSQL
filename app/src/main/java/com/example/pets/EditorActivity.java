@@ -117,10 +117,10 @@ public class EditorActivity extends AppCompatActivity {
         Uri newuri = getContentResolver().insert(PetEntry.CONTENT_URI,values);
 
         if(newuri == null){
-            Toast.makeText(this,"inserting pet failed",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getText(R.string.editor_insert_pet_failed),Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(this,"Pet inserted",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getText(R.string.editor_insert_pet_passed),Toast.LENGTH_SHORT).show();
         }
 
     }
