@@ -5,6 +5,7 @@ import androidx.core.app.NavUtils;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -106,11 +107,6 @@ public class EditorActivity extends AppCompatActivity {
         String weightString = mWeightEditText.getText().toString().trim();
         int weight = Integer.parseInt(weightString);
 
-        PetDbHelper mDbHelper = new PetDbHelper(this);
-
-        // Gets the data repository in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(PetEntry.COLUMN_PET_NAME, nameString);
@@ -118,17 +114,15 @@ public class EditorActivity extends AppCompatActivity {
         values.put(PetEntry.COLUMN_PET_GENDER, mGender);
         values.put(PetEntry.COLUMN_PER_WEIGHT, weight);
 
+        Uri newuri = getContentResolver().insert(PetEntry.CONTENT_URI,values);
 
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
-
-        if(newRowId == -1)
-        {
-            Toast.makeText(this, "Error in saving pet",Toast.LENGTH_SHORT).show();
+        if(newuri == null){
+            Toast.makeText(this,"inserting pet failed",Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(this, "Pet saved with RowId"+newRowId,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Pet inserted",Toast.LENGTH_SHORT).show();
         }
+
     }
 
     @Override
@@ -140,7 +134,7 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)  {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
         if (item.getItemId() == R.id.action_save) {
             // Respond to a click on the "Save" menu option
